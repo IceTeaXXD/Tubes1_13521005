@@ -32,6 +32,8 @@ public class InputFrameController{
     @FXML
     private ComboBox<String> numberOfRounds;
 
+    @FXML
+    private ComboBox<String> botAlgorithm;
 
     /**
      * Initialize the dropdown ComboBox with a list of items that are allowed to be selected.
@@ -45,6 +47,7 @@ public class InputFrameController{
                 "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28");
         this.numberOfRounds.setItems(numberOfRoundsDropdown);
         this.numberOfRounds.getSelectionModel().select(0);
+        this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move"));
     }
 
 
@@ -80,7 +83,17 @@ public class InputFrameController{
 
             // Get controller of output frame and pass input including player names and number of rounds chosen.
             OutputFrameController outputFC = loader.getController();
-            outputFC.getInput(this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected());
+
+            // Bot Algorithm
+            // 1. Random Move
+            // 2. ...
+            // 3. ...
+            int botAlgorithm = 0;
+            if (this.botAlgorithm.getValue().equals("Random Move")) {
+                botAlgorithm = 1;
+            }
+
+            outputFC.getInput(this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm);
 
             // Open the new frame.
             Stage secondaryStage = new Stage();
