@@ -47,7 +47,7 @@ public class InputFrameController{
                 "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28");
         this.numberOfRounds.setItems(numberOfRoundsDropdown);
         this.numberOfRounds.getSelectionModel().select(0);
-        this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move"));
+        this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning"));
     }
 
 
@@ -91,6 +91,8 @@ public class InputFrameController{
             int botAlgorithm = 0;
             if (this.botAlgorithm.getValue().equals("Random Move")) {
                 botAlgorithm = 1;
+            } else if (this.botAlgorithm.getValue().equals("Minimax Alpha Beta Pruning")) {
+                botAlgorithm = 2;
             }
 
             outputFC.getInput(this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm);

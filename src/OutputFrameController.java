@@ -82,6 +82,8 @@ public class OutputFrameController {
         // 3. ...
         if (botAlgorithm == 1) {
             this.bot = new RandomBot();
+        } else if (botAlgorithm == 2) {
+            this.bot = new MinimaxBot();
         }
 
         this.playerXTurn = !isBotFirst;
