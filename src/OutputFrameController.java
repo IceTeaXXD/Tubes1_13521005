@@ -69,15 +69,21 @@ public class OutputFrameController {
      * @param isBotFirst True if bot is first, false otherwise.
      *
      */
-    void getInput(String name1, String name2, String rounds, boolean isBotFirst){
+    void getInput(String name1, String name2, String rounds, boolean isBotFirst, int botAlgorithm){
         this.playerXName.setText(name1);
         this.playerOName.setText(name2);
         this.roundsLeftLabel.setText(rounds);
         this.roundsLeft = Integer.parseInt(rounds);
         this.isBotFirst = isBotFirst;
 
-        // Start bot
-        this.bot = new Bot();
+        // Start bot the bot
+        // 1. Random Move
+        // 2. ...
+        // 3. ...
+        if (botAlgorithm == 1) {
+            this.bot = new RandomBot();
+        }
+
         this.playerXTurn = !isBotFirst;
         if (this.isBotFirst) {
             this.moveBot();
@@ -353,12 +359,15 @@ public class OutputFrameController {
     }
 
     private void moveBot() {
-        int[] botMove = this.bot.move();
+        Button[][] board = new Button[ROW][COL];
+        for (int i = 0; i < ROW; i++)
+            for (int j = 0; j < COL; j++)
+                board[i][j] = new Button(this.buttons[i][j].getText());
+        int[] botMove = this.bot.move(board, roundsLeft);
         int i = botMove[0];
         int j = botMove[1];
-
         if (!this.buttons[i][j].getText().equals("")) {
-            new Alert(Alert.AlertType.ERROR, "Bot Invalid Coordinates. Exiting.").showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Bot Invalid coordinates: Try again!" + i + " " + j).showAndWait();
             System.exit(1);
             return;
         }
