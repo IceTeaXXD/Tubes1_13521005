@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +35,18 @@ public class InputFrameController{
 
     @FXML
     private ComboBox<String> botAlgorithm;
+    @FXML
+    private ComboBox<String> gameMode;
+    @FXML
+    private Label player2text;
+    @FXML
+    private Label player1text;
+    @FXML
+    private Label botAlgorithmtext;
+    @FXML
+    private Label botAlgorithmtext2;
+    @FXML
+    private ComboBox<String> botAlgorithm2;
 
     /**
      * Initialize the dropdown ComboBox with a list of items that are allowed to be selected.
@@ -48,9 +61,52 @@ public class InputFrameController{
         this.numberOfRounds.setItems(numberOfRoundsDropdown);
         this.numberOfRounds.getSelectionModel().select(0);
         this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning", "Hill Climb"));
-        this.
+        this.botAlgorithm2.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning", "Hill Climb"));
+        this.gameMode.setItems(FXCollections.observableArrayList("Human vs Human", "Human vs Bot", "Bot vs Bot"));
+        this.botAlgorithmtext2.setVisible(false);
+        this.botAlgorithm2.setVisible(false);
+        this.gameMode.getSelectionModel().select(1);
+        this.gameMode.setOnAction(event -> {
+            // Call your function here
+            if (this.gameMode.getValue().equals("Human vs Human")){
+                this.humanselection();
+            }
+            if (this.gameMode.getValue().equals("Human vs Bot")){
+                this.humanbotselection();
+            }
+            if (this.gameMode.getValue().equals("Bot vs Bot")){
+                this.botselection();
+            }
+        });
     }
-
+    @FXML
+    private void humanselection(){
+        this.player1text.setText("Player Name (X):");
+        this.player2text.setText("Player Name (O):");
+        this.botAlgorithm.setVisible(false);
+        this.botAlgorithmtext.setVisible(false);
+        this.botAlgorithmtext.setText("Bot Algorithm: ");
+        this.botAlgorithm2.setVisible(false);
+        this.botAlgorithmtext2.setVisible(false);
+    }
+    private void botselection(){
+        this.player1text.setText("Bot Name (X):");
+        this.player2text.setText("Bot Name (O):");
+        this.botAlgorithm.setVisible(true);
+        this.botAlgorithmtext.setVisible(true);
+        this.botAlgorithmtext.setText("Bot (O) Algorithm: ");
+        this.botAlgorithm2.setVisible(true);
+        this.botAlgorithmtext2.setVisible(true);
+    }
+    private void humanbotselection(){
+        this.player1text.setText("Player Name (X):");
+        this.player2text.setText("Bot Name (O):");
+        this.botAlgorithm.setVisible(true);
+        this.botAlgorithmtext.setVisible(true);
+        this.botAlgorithmtext.setText("Bot Algorithm: ");
+        this.botAlgorithm2.setVisible(false);
+        this.botAlgorithmtext2.setVisible(false);
+    }
 
     /**
      * Reset player1 and player2 text fields and reset numberOfRounds dropdown to default value
@@ -84,28 +140,58 @@ public class InputFrameController{
 
             // Get controller of output frame and pass input including player names and number of rounds chosen.
             OutputFrameController outputFC = loader.getController();
-
-            // Bot Algorithm
-            // 1. Random Move
-            // 2. ...
-            // 3. ...
-            int botAlgorithm = 0;
-            if (this.botAlgorithm.getValue().equals("Random Move")) {
-                botAlgorithm = 1;
-            } else if (this.botAlgorithm.getValue().equals("Minimax Alpha Beta Pruning")) {
-                botAlgorithm = 2;
-            } else if (this.botAlgorithm.getValue().equals("Hill Climb")){
-                botAlgorithm = 3;
-            }
-
-            outputFC.getInput(this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm);
-
-            // Open the new frame.
+            
             Stage secondaryStage = new Stage();
             secondaryStage.setTitle("Game Board Display");
             secondaryStage.setScene(new Scene(root));
             secondaryStage.setResizable(true);
             secondaryStage.show();
+            
+            // Bot Algorithm
+            // 1. Random Move
+            // 2. ...
+            // 3. ...
+            if (this.gameMode.getValue().equals("Human vs Human")){
+                System.out.println("Human vs Human");
+                outputFC.getInput(this.gameMode.getValue(),this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), 0, 0);
+            }
+            
+            else if (this.gameMode.getValue().equals("Human vs Bot")){
+                int botAlgorithm = 0;
+                if (this.botAlgorithm.getValue().equals("Random Move")) {
+                    botAlgorithm = 1;
+                } else if (this.botAlgorithm.getValue().equals("Minimax Alpha Beta Pruning")) {
+                    botAlgorithm = 2;
+                } else if (this.botAlgorithm.getValue().equals("Hill Climb")){
+                    botAlgorithm = 3;
+                }
+                outputFC.getInput(this.gameMode.getValue(),this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm, 0);
+            }
+            
+            else if (this.gameMode.getValue().equals("Bot vs Bot")){
+                int botAlgorithm = 0;
+                if (this.botAlgorithm.getValue().equals("Random Move")) {
+                    botAlgorithm = 1;
+                } else if (this.botAlgorithm.getValue().equals("Minimax Alpha Beta Pruning")) {
+                    botAlgorithm = 2;
+                } else if (this.botAlgorithm.getValue().equals("Hill Climb")){
+                    botAlgorithm = 3;
+                }
+                
+                int botAlgorithm2 = 0;
+                if (this.botAlgorithm2.getValue().equals("Random Move")) {
+                    botAlgorithm2 = 1;
+                } else if (this.botAlgorithm2.getValue().equals("Minimax Alpha Beta Pruning")) {
+                    botAlgorithm2 = 2;
+                } else if (this.botAlgorithm2.getValue().equals("Hill Climb")){
+                    botAlgorithm2 = 3;
+                }
+                outputFC.getInput(this.gameMode.getValue(),this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), false, botAlgorithm, botAlgorithm2);
+            }
+
+            // outputFC.getInput(this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm);
+
+            // Open the new frame.
         }
     }
 
@@ -141,7 +227,7 @@ public class InputFrameController{
             return false;
         }
 
-        if (this.botAlgorithm.getValue() == null) {
+        if (this.gameMode.getValue().equals("Human vs Bot") && this.botAlgorithm.getValue() == null) {
             new Alert(Alert.AlertType.ERROR, "Algorithm dropdown menu is blank.").showAndWait();
             return false;
         }
