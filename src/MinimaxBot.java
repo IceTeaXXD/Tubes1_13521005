@@ -2,8 +2,15 @@ import javafx.scene.control.Button;
 
 public class MinimaxBot extends Bot {
     public long endTime;
+    public String mySymbol;
+    public String enemySymbol;
 
-    public int[] move(Button[][] board, int roundsLeft) {
+    public int[] move(Button[][] board, int roundsLeft, String enemySymbol) {
+        if (enemySymbol.equals("O")) {
+            this.mySymbol = "X";
+        } else {
+            this.mySymbol = "O";
+        }
         int[] move = new int[2];
         this.endTime = System.currentTimeMillis() + 5000; // 5 seconds from now
         int[] selection = minimax(board, roundsLeft, roundsLeft, Integer.MAX_VALUE, Integer.MIN_VALUE, true);
@@ -17,10 +24,10 @@ public class MinimaxBot extends Bot {
         int evaluation = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (board[i][j].getText().equals("O")) {
+                if (board[i][j].getText().equals(mySymbol)) {
                     evaluation++;
                 }
-                if (board[i][j].getText().equals("X")) {
+                if (board[i][j].getText().equals(enemySymbol)) {
                     evaluation--;
                 }
             }
