@@ -3,6 +3,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.application.Platform;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
@@ -43,14 +46,18 @@ public class OutputFrameController {
     private Label playerXScoreLabel;
     @FXML
     private Label playerOScoreLabel;
+    @FXML
+    private Button nextButton;
 
 
+    private String gameMode;
     private boolean playerXTurn;
     private int playerXScore;
     private int playerOScore;
     private int roundsLeft;
     private boolean isBotFirst;
     private Bot bot;
+    private Bot bot2;
 
 
     private static final int ROW = 8;
@@ -69,7 +76,8 @@ public class OutputFrameController {
      * @param isBotFirst True if bot is first, false otherwise.
      *
      */
-    void getInput(String name1, String name2, String rounds, boolean isBotFirst, int botAlgorithm){
+    void getInput(String gameMode, String name1, String name2, String rounds, boolean isBotFirst, int botAlgorithm, int botAlgorithm2){
+        this.gameMode = gameMode;
         this.playerXName.setText(name1);
         this.playerOName.setText(name2);
         this.roundsLeftLabel.setText(rounds);
@@ -80,18 +88,44 @@ public class OutputFrameController {
         // 1. Random Move
         // 2. ...
         // 3. ...
-        if (botAlgorithm == 1) {
-            this.bot = new RandomBot();
-        } else if (botAlgorithm == 2) {
-            this.bot = new MinimaxBot();
-        } else if (botAlgorithm == 3) {
-            this.bot = new HillClimbBot();
+        if (gameMode == "Human vs Bot") {
+            if (botAlgorithm == 1) {
+                this.bot = new RandomBot();
+            } else if (botAlgorithm == 2) {
+                this.bot = new MinimaxBot();
+            } else if (botAlgorithm == 3) {
+                this.bot = new HillClimbBot();
+            }
+            this.playerXTurn = !isBotFirst;
+            if (this.isBotFirst) {
+                this.moveBot();
+            }
+        } else if (gameMode == "Bot vs Bot") {
+            if (botAlgorithm2 == 1) {
+                this.bot2 = new RandomBot();
+            } else if (botAlgorithm2 == 2) {
+                this.bot2 = new MinimaxBot();
+            } else if (botAlgorithm2== 3) {
+                this.bot2 = new HillClimbBot();
+            }
+            
+            if (botAlgorithm == 1) {
+                this.bot = new RandomBot();
+            } else if (botAlgorithm == 2) {
+                this.bot = new MinimaxBot();
+            } else if (botAlgorithm == 3) {
+                this.bot = new HillClimbBot();
+            }
+    
+                // After bot2 initialization is complete, update the UI
+            for (int i = 0; i < ROW; i++) {
+                for (int j = 0; j < COL; j++) {
+                    this.buttons[i][j].setDisable(true);
+                }
+            }
+            this.moveBot2();
         }
 
-        this.playerXTurn = !isBotFirst;
-        if (this.isBotFirst) {
-            this.moveBot();
-        }
     }
 
 
@@ -104,6 +138,7 @@ public class OutputFrameController {
      */
     @FXML
     private void initialize() {
+        
         // Construct game board with 8 rows.
         for (int i = 0; i < ROW; i++) {
             RowConstraints rowConst = new RowConstraints();
@@ -207,7 +242,9 @@ public class OutputFrameController {
                 }
 
                 // Bot's turn
-                this.moveBot();
+                if (this.gameMode == "Human vs Bot" || this.gameMode == "Bot vs Bot") {
+                    this.moveBot();
+                }
             }
             else {
                 this.playerXBoxPane.setStyle("-fx-background-color: #90EE90; -fx-border-color: #D3D3D3;");
@@ -217,14 +254,18 @@ public class OutputFrameController {
 
                 this.updateGameBoard(i, j);
                 this.playerXTurn = true;
-
                 if (!isBotFirst) {
                     this.roundsLeft--; // Decrement the number of rounds left after both Player X & Player O have played.
                     this.roundsLeftLabel.setText(String.valueOf(this.roundsLeft));
                 }
-
+                
                 if (!isBotFirst && this.roundsLeft == 0) { // Game has terminated.
                     this.endOfGame();       // Determine & announce the winner.
+                }
+                else {
+                    if (this.gameMode == "Bot vs Bot"){
+                        this.moveBot2();
+                    }
                 }
             }
         }
@@ -243,40 +284,41 @@ public class OutputFrameController {
         // Four boundaries:  First & last row and first & last column.
 
         int startRow, endRow, startColumn, endColumn;
+        
+            if (i - 1 < 0)     // If clicked button in first row, no preceding row exists.
+                startRow = i;
+            else               // Otherwise, the preceding row exists for adjacency.
+                startRow = i - 1;
+    
+            if (i + 1 >= ROW)  // If clicked button in last row, no subsequent/further row exists.
+                endRow = i;
+            else               // Otherwise, the subsequent row exists for adjacency.
+                endRow = i + 1;
+    
+            if (j - 1 < 0)     // If clicked on first column, lower bound of the column has been reached.
+                startColumn = j;
+            else
+                startColumn = j - 1;
+    
+            if (j + 1 >= COL)  // If clicked on last column, upper bound of the column has been reached.
+                endColumn = j;
+            else
+                endColumn = j + 1;
+    
+    
+            // Search for adjacency for X's and O's or vice versa, and replace them.
+            // Update scores for X's and O's accordingly.
+            for (int x = startRow; x <= endRow; x++) {
+                this.setPlayerScore(x, j);
+            }
+    
+            for (int y = startColumn; y <= endColumn; y++) {
+                this.setPlayerScore(i, y);
+            }
+    
+            this.playerXScoreLabel.setText(String.valueOf(this.playerXScore));
+            this.playerOScoreLabel.setText(String.valueOf(this.playerOScore));
 
-        if (i - 1 < 0)     // If clicked button in first row, no preceding row exists.
-            startRow = i;
-        else               // Otherwise, the preceding row exists for adjacency.
-            startRow = i - 1;
-
-        if (i + 1 >= ROW)  // If clicked button in last row, no subsequent/further row exists.
-            endRow = i;
-        else               // Otherwise, the subsequent row exists for adjacency.
-            endRow = i + 1;
-
-        if (j - 1 < 0)     // If clicked on first column, lower bound of the column has been reached.
-            startColumn = j;
-        else
-            startColumn = j - 1;
-
-        if (j + 1 >= COL)  // If clicked on last column, upper bound of the column has been reached.
-            endColumn = j;
-        else
-            endColumn = j + 1;
-
-
-        // Search for adjacency for X's and O's or vice versa, and replace them.
-        // Update scores for X's and O's accordingly.
-        for (int x = startRow; x <= endRow; x++) {
-            this.setPlayerScore(x, j);
-        }
-
-        for (int y = startColumn; y <= endColumn; y++) {
-            this.setPlayerScore(i, y);
-        }
-
-        this.playerXScoreLabel.setText(String.valueOf(this.playerXScore));
-        this.playerOScoreLabel.setText(String.valueOf(this.playerOScore));
     }
 
     private void setPlayerScore(int i, int j){
@@ -342,6 +384,7 @@ public class OutputFrameController {
     }
 
 
+
     /**
      * Reopen InputFrame controlled by InputFrameController if play new game button is clicked.
      *
@@ -367,15 +410,47 @@ public class OutputFrameController {
         for (int i = 0; i < ROW; i++)
             for (int j = 0; j < COL; j++)
                 board[i][j] = new Button(this.buttons[i][j].getText());
-        int[] botMove = this.bot.move(board, roundsLeft);
-        int i = botMove[0];
-        int j = botMove[1];
-        if (!this.buttons[i][j].getText().equals("")) {
-            new Alert(Alert.AlertType.ERROR, "Bot Invalid coordinates: Try again!" + i + " " + j).showAndWait();
-            System.exit(1);
-            return;
-        }
+        
+        PauseTransition pause1 = new PauseTransition(Duration.seconds(1)); // 3 seconds delay
+        pause1.setOnFinished(event -> {
+            Platform.runLater(() -> {
+                int[] botMove = this.bot.move(board, roundsLeft, "X");
+                int i = botMove[0];
+                int j = botMove[1];
+                if (!this.buttons[i][j].getText().equals("")) {
+                    new Alert(Alert.AlertType.ERROR, "Bot Invalid coordinates: Try again!" + i + " " + j).showAndWait();
+                    System.exit(1);
+                    return;
+                }
+        
+                this.selectedCoordinates(i, j);
+            });
+        });
+        pause1.play();
+    }
+    private void moveBot2() {
+        System.out.println("yes yes yewss yews");
+        Button[][] board = new Button[ROW][COL];
+        for (int i = 0; i < ROW; i++)
+            for (int j = 0; j < COL; j++)
+                board[i][j] = new Button(this.buttons[i][j].getText());
+        
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(1)); // 3 seconds delay
+        pause2.setOnFinished(event -> {
+            Platform.runLater(() -> {
+                int[] botMove = this.bot2.move(board, roundsLeft, "O");
+                int i = botMove[0];
+                int j = botMove[1];
+                if (!this.buttons[i][j].getText().equals("")) {
+                    new Alert(Alert.AlertType.ERROR, "Bot Invalid coordinates: Try again!" + i + " " + j).showAndWait();
+                    System.exit(1);
+                    return;
+                }
+        
+                this.selectedCoordinates(i, j);
+            });
+        });
+        pause2.play();
 
-        this.selectedCoordinates(i, j);
     }
 }
