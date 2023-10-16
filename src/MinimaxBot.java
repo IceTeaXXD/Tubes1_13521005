@@ -6,6 +6,7 @@ public class MinimaxBot extends Bot {
     public String enemySymbol;
 
     public int[] move(Button[][] board, int roundsLeft, String enemySymbol) {
+        this.enemySymbol = enemySymbol;
         if (enemySymbol.equals("O")) {
             this.mySymbol = "X";
         } else {
@@ -49,33 +50,33 @@ public class MinimaxBot extends Bot {
 
         // Bot's turn
         if (bot) {
-            finalBoard[x][y].setText("O");
-            if (x > 0 && finalBoard[x - 1][y].getText().equals("X")) {
-                finalBoard[x - 1][y].setText("O");
+            finalBoard[x][y].setText(mySymbol);
+            if (x > 0 && finalBoard[x - 1][y].getText().equals(enemySymbol)) {
+                finalBoard[x - 1][y].setText(mySymbol);
             }
-            if (x < 7 && finalBoard[x + 1][y].getText().equals("X")) {
-                finalBoard[x + 1][y].setText("O");
+            if (x < 7 && finalBoard[x + 1][y].getText().equals(enemySymbol)) {
+                finalBoard[x + 1][y].setText(mySymbol);
             }
-            if (y > 0 && finalBoard[x][y - 1].getText().equals("X")) {
-                finalBoard[x][y - 1].setText("O");
+            if (y > 0 && finalBoard[x][y - 1].getText().equals(enemySymbol)) {
+                finalBoard[x][y - 1].setText(mySymbol);
             }
-            if (y < 7 && finalBoard[x][y + 1].getText().equals("X")) {
-                finalBoard[x][y + 1].setText("O");
+            if (y < 7 && finalBoard[x][y + 1].getText().equals(enemySymbol)) {
+                finalBoard[x][y + 1].setText(mySymbol);
             }
             // Player's turn
         } else {
-            finalBoard[x][y].setText("X");
-            if (x > 0 && finalBoard[x - 1][y].getText().equals("O")) {
-                finalBoard[x - 1][y].setText("X");
+            finalBoard[x][y].setText(enemySymbol);
+            if (x > 0 && finalBoard[x - 1][y].getText().equals(mySymbol)) {
+                finalBoard[x - 1][y].setText(enemySymbol);
             }
-            if (x < 7 && finalBoard[x + 1][y].getText().equals("O")) {
-                finalBoard[x + 1][y].setText("X");
+            if (x < 7 && finalBoard[x + 1][y].getText().equals(mySymbol)) {
+                finalBoard[x + 1][y].setText(enemySymbol);
             }
-            if (y > 0 && finalBoard[x][y - 1].getText().equals("O")) {
-                finalBoard[x][y - 1].setText("X");
+            if (y > 0 && finalBoard[x][y - 1].getText().equals(mySymbol)) {
+                finalBoard[x][y - 1].setText(enemySymbol);
             }
-            if (y < 7 && finalBoard[x][y + 1].getText().equals("O")) {
-                finalBoard[x][y + 1].setText("X");
+            if (y < 7 && finalBoard[x][y + 1].getText().equals(mySymbol)) {
+                finalBoard[x][y + 1].setText(enemySymbol);
             }
         }
         return finalBoard;
