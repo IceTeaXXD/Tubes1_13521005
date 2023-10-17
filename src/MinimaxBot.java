@@ -85,9 +85,6 @@ public class MinimaxBot extends Bot {
     // Minimax algorithm
     public int[] minimax(Button[][] board, int depth, int roundsLeft, int alpha, int beta, boolean bot) {
         // basis
-        if (System.currentTimeMillis() >= this.endTime) {
-            System.out.println("Time's up!");
-        }
         if (depth == 0 || roundsLeft == 0 || System.currentTimeMillis() >= endTime) {
             int evaluation = minimaxEvaluation(board);
             return new int[] { evaluation, -1, -1 };
