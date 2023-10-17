@@ -25,30 +25,79 @@ import java.io.IOException;
  */
 public class InputFrameController {
 
-    public CheckBox isBotFirst;
+    // GENERAL
     @FXML
-    private TextField player1;
-
-    @FXML
-    private TextField player2;
+    private ComboBox<String> gameMode;
 
     @FXML
     private ComboBox<String> numberOfRounds;
 
+    // HUMAN VS HUMAN
+    @FXML
+    private TextField playerX;
+
+    @FXML
+    private TextField playerO;
+
+    @FXML
+    private Label playerXtext;
+
+    @FXML
+    private Label playerOtext;
+
+    public CheckBox isPlayerOFirst;
+
+    @FXML
+    private Label isPlayerOFirsttext;
+
+    // HUMAN VS BOT
+    @FXML
+    private TextField player;
+
+    @FXML
+    private TextField bot;
+
     @FXML
     private ComboBox<String> botAlgorithm;
+
+    public CheckBox isBotFirst;
+
     @FXML
-    private ComboBox<String> gameMode;
+    private Label playertext;
+
     @FXML
-    private Label player2text;
-    @FXML
-    private Label player1text;
+    private Label bottext;
+
     @FXML
     private Label botAlgorithmtext;
+
     @FXML
-    private Label botAlgorithmtext2;
+    private Label botgoesfirsttext;
+
+    // BOT VS BOT
     @FXML
-    private ComboBox<String> botAlgorithm2;
+    private TextField botX;
+
+    @FXML
+    private TextField botO;
+
+    @FXML
+    private ComboBox<String> botAlgorithmX;
+
+    @FXML
+    private ComboBox<String> botAlgorithmO;
+
+    @FXML
+    private Label botXtext;
+
+    @FXML
+    private Label botOtext;
+
+    @FXML
+    private Label botAlgorithmtextX;
+
+    @FXML
+    private Label botAlgorithmtextO;
 
     /**
      * Initialize the dropdown ComboBox with a list of items that are allowed to be
@@ -58,21 +107,16 @@ public class InputFrameController {
      */
     @FXML
     private void initialize() {
+        this.hideAll();
         ObservableList<String> numberOfRoundsDropdown = FXCollections.observableArrayList(
                 "", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15",
                 "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28");
         this.numberOfRounds.setItems(numberOfRoundsDropdown);
         this.numberOfRounds.getSelectionModel().select(0);
-        this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
-                "Hill Climb", "Genetic-Minimax"));
-        this.botAlgorithm2.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
-                "Hill Climb", "Genetic-Minimax"));
         this.gameMode.setItems(FXCollections.observableArrayList("Human vs Human", "Human vs Bot", "Bot vs Bot"));
-        this.botAlgorithmtext2.setVisible(false);
-        this.botAlgorithm2.setVisible(false);
         this.gameMode.getSelectionModel().select(1);
+        this.humanbotselection();
         this.gameMode.setOnAction(event -> {
-            // Call your function here
             if (this.gameMode.getValue().equals("Human vs Human")) {
                 this.humanselection();
             }
@@ -83,37 +127,75 @@ public class InputFrameController {
                 this.botselection();
             }
         });
+        this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
+                "Hill Climb", "Genetic-Minimax"));
+        this.botAlgorithmX.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
+                "Hill Climb", "Genetic-Minimax"));
+        this.botAlgorithmO.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
+                "Hill Climb", "Genetic-Minimax"));
     }
 
-    @FXML
-    private void humanselection() {
-        this.player1text.setText("Player Name (X):");
-        this.player2text.setText("Player Name (O):");
+    private void hideAll() {
+        this.playerX.setVisible(false);
+        this.playerO.setVisible(false);
+        this.isPlayerOFirst.setVisible(false);
+        this.player.setVisible(false);
+        this.bot.setVisible(false);
         this.botAlgorithm.setVisible(false);
+        this.isBotFirst.setVisible(false);
+        this.botX.setVisible(false);
+        this.botO.setVisible(false);
+        this.botAlgorithmX.setVisible(false);
+        this.botAlgorithmO.setVisible(false);
+        this.playerXtext.setVisible(false);
+        this.playerOtext.setVisible(false);
+        this.playertext.setVisible(false);
+        this.bottext.setVisible(false);
+        this.botXtext.setVisible(false);
+        this.botOtext.setVisible(false);
         this.botAlgorithmtext.setVisible(false);
-        this.botAlgorithmtext.setText("Bot Algorithm: ");
-        this.botAlgorithm2.setVisible(false);
-        this.botAlgorithmtext2.setVisible(false);
+        this.botAlgorithmtextX.setVisible(false);
+        this.botAlgorithmtextO.setVisible(false);
+        this.isPlayerOFirst.setVisible(false);
+        this.isPlayerOFirsttext.setVisible(false);
+        this.botgoesfirsttext.setVisible(false);
+    }
+
+    private void humanselection() {
+        // SHOW MENU FOR HUMAN VS HUMAN AND HIDE OTHERS
+        this.hideAll();
+        this.playerX.setVisible(true);
+        this.playerO.setVisible(true);
+        this.isPlayerOFirst.setVisible(true);
+        this.playerXtext.setVisible(true);
+        this.playerOtext.setVisible(true);
+        this.isPlayerOFirsttext.setVisible(true);
     }
 
     private void botselection() {
-        this.player1text.setText("Bot Name (X):");
-        this.player2text.setText("Bot Name (O):");
-        this.botAlgorithm.setVisible(true);
-        this.botAlgorithmtext.setVisible(true);
-        this.botAlgorithmtext.setText("Bot (O) Algorithm: ");
-        this.botAlgorithm2.setVisible(true);
-        this.botAlgorithmtext2.setVisible(true);
+        // SHOW MENU FOR BOT VS BOT AND HIDE OTHERS
+        this.hideAll();
+        this.botX.setVisible(true);
+        this.botO.setVisible(true);
+        this.botAlgorithmX.setVisible(true);
+        this.botAlgorithmO.setVisible(true);
+        this.botXtext.setVisible(true);
+        this.botOtext.setVisible(true);
+        this.botAlgorithmtextX.setVisible(true);
+        this.botAlgorithmtextO.setVisible(true);
     }
 
     private void humanbotselection() {
-        this.player1text.setText("Player Name (X):");
-        this.player2text.setText("Bot Name (O):");
+        // SHOW MENU FOR HUMAN VS BOT AND HIDE OTHERS
+        this.hideAll();
+        this.player.setVisible(true);
+        this.bot.setVisible(true);
         this.botAlgorithm.setVisible(true);
         this.botAlgorithmtext.setVisible(true);
-        this.botAlgorithmtext.setText("Bot Algorithm: ");
-        this.botAlgorithm2.setVisible(false);
-        this.botAlgorithmtext2.setVisible(false);
+        this.isBotFirst.setVisible(true);
+        this.playertext.setVisible(true);
+        this.bottext.setVisible(true);
+        this.botgoesfirsttext.setVisible(true);
     }
 
     /**
@@ -124,9 +206,18 @@ public class InputFrameController {
      */
     @FXML
     private void reset() {
-        this.player1.setText("");
-        this.player2.setText("");
+        // reset all input fields
+        this.playerX.setText("");
+        this.playerO.setText("");
         this.numberOfRounds.getSelectionModel().select(0);
+        this.player.setText("");
+        this.bot.setText("");
+        this.botAlgorithm.getSelectionModel().select(0);
+        this.isBotFirst.setSelected(false);
+        this.botX.setText("");
+        this.botO.setText("");
+        this.botAlgorithmX.getSelectionModel().select(0);
+        this.botAlgorithmO.getSelectionModel().select(0);
     }
 
     /**
@@ -142,7 +233,7 @@ public class InputFrameController {
     private void play() throws IOException {
         if (this.isInputFieldValidated()) {
             // Close primary stage/input frame.
-            Stage primaryStage = (Stage) this.player1.getScene().getWindow();
+            Stage primaryStage = (Stage) this.playerX.getScene().getWindow();
             primaryStage.close();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("OutputFrame.fxml"));
@@ -165,8 +256,8 @@ public class InputFrameController {
             // 4. Genetic-Minimax
             if (this.gameMode.getValue().equals("Human vs Human")) {
                 System.out.println("Human vs Human");
-                outputFC.getInput(this.gameMode.getValue(), this.player1.getText(), this.player2.getText(),
-                        this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), 0, 0);
+                outputFC.getInput(this.gameMode.getValue(), this.playerX.getText(), this.playerO.getText(),
+                        this.numberOfRounds.getValue(), this.isPlayerOFirst.isSelected(), 0, 0);
             }
 
             else if (this.gameMode.getValue().equals("Human vs Bot")) {
@@ -180,34 +271,34 @@ public class InputFrameController {
                 } else if (this.botAlgorithm.getValue().equals("Genetic-Minimax")) {
                     botAlgorithm = 4;
                 }
-                outputFC.getInput(this.gameMode.getValue(), this.player1.getText(), this.player2.getText(),
+                outputFC.getInput(this.gameMode.getValue(), this.player.getText(), this.bot.getText(),
                         this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm, 0);
             }
 
             else if (this.gameMode.getValue().equals("Bot vs Bot")) {
-                int botAlgorithm = 0;
-                if (this.botAlgorithm.getValue().equals("Random Move")) {
-                    botAlgorithm = 1;
-                } else if (this.botAlgorithm.getValue().equals("Minimax Alpha Beta Pruning")) {
-                    botAlgorithm = 2;
-                } else if (this.botAlgorithm.getValue().equals("Hill Climb")) {
-                    botAlgorithm = 3;
-                } else if (this.botAlgorithm.getValue().equals("Genetic-Minimax")) {
-                    botAlgorithm = 4;
+                int botAlgorithmX = 0;
+                if (this.botAlgorithmX.getValue().equals("Random Move")) {
+                    botAlgorithmX = 1;
+                } else if (this.botAlgorithmX.getValue().equals("Minimax Alpha Beta Pruning")) {
+                    botAlgorithmX = 2;
+                } else if (this.botAlgorithmX.getValue().equals("Hill Climb")) {
+                    botAlgorithmX = 3;
+                } else if (this.botAlgorithmX.getValue().equals("Genetic-Minimax")) {
+                    botAlgorithmX = 4;
                 }
 
-                int botAlgorithm2 = 0;
-                if (this.botAlgorithm2.getValue().equals("Random Move")) {
-                    botAlgorithm2 = 1;
-                } else if (this.botAlgorithm2.getValue().equals("Minimax Alpha Beta Pruning")) {
-                    botAlgorithm2 = 2;
-                } else if (this.botAlgorithm2.getValue().equals("Hill Climb")) {
-                    botAlgorithm2 = 3;
-                } else if (this.botAlgorithm2.getValue().equals("Genetic-Minimax")) {
-                    botAlgorithm2 = 4;
+                int botAlgorithmO = 0;
+                if (this.botAlgorithmO.getValue().equals("Random Move")) {
+                    botAlgorithmO = 1;
+                } else if (this.botAlgorithmO.getValue().equals("Minimax Alpha Beta Pruning")) {
+                    botAlgorithmO = 2;
+                } else if (this.botAlgorithmO.getValue().equals("Hill Climb")) {
+                    botAlgorithmO = 3;
+                } else if (this.botAlgorithmO.getValue().equals("Genetic-Minimax")) {
+                    botAlgorithmO = 4;
                 }
-                outputFC.getInput(this.gameMode.getValue(), this.player1.getText(), this.player2.getText(),
-                        this.numberOfRounds.getValue(), false, botAlgorithm, botAlgorithm2);
+                outputFC.getInput(this.gameMode.getValue(), this.botX.getText(), this.botO.getText(),
+                        this.numberOfRounds.getValue(), false, botAlgorithmX, botAlgorithmO);
             }
         }
     }
@@ -219,35 +310,67 @@ public class InputFrameController {
      *
      */
     private boolean isInputFieldValidated() {
-        String playerX = this.player1.getText();
-        String playerO = this.player2.getText();
-        String roundNumber = this.numberOfRounds.getValue();
-
-        if (playerX.length() == 0) {
-            new Alert(Alert.AlertType.ERROR, "Player 1 name is blank.").showAndWait();
-            return false;
-        }
-
-        if (playerO.length() == 0) {
-            new Alert(Alert.AlertType.ERROR, "Player 2 name is blank.").showAndWait();
-            return false;
-        }
-
-        if (playerX.equals(playerO)) {
-            new Alert(Alert.AlertType.ERROR, "Player 1 and Player 2 cannot have the same name.").showAndWait();
-            return false;
-        }
-
-        if (roundNumber.length() == 0) {
+        if (this.numberOfRounds.getValue().length() == 0) {
             new Alert(Alert.AlertType.ERROR, "Number of rounds dropdown menu is blank.").showAndWait();
             return false;
         }
 
-        if (this.gameMode.getValue().equals("Human vs Bot") && this.botAlgorithm.getValue() == null) {
-            new Alert(Alert.AlertType.ERROR, "Algorithm dropdown menu is blank.").showAndWait();
-            return false;
+        if (this.gameMode.getValue().equals("Human vs Human")) {
+            if (this.playerX.getText().length() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Player X text field is blank.").showAndWait();
+                return false;
+            }
+            if (this.playerO.getText().length() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Player O text field is blank.").showAndWait();
+                return false;
+            }
+            if (this.playerX.getText().equals(this.playerO.getText())) {
+                new Alert(Alert.AlertType.ERROR, "Player X and Player O cannot have the same name.").showAndWait();
+                return false;
+            }
         }
 
+        else if (this.gameMode.getValue().equals("Human vs Bot")) {
+            if (this.player.getText().length() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Player text field is blank.").showAndWait();
+                return false;
+            }
+            if (this.bot.getText().length() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Bot text field is blank.").showAndWait();
+                return false;
+            }
+            if (this.botAlgorithm.getValue().length() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Bot Algorithm dropdown menu is blank.").showAndWait();
+                return false;
+            }
+            if (this.player.getText().equals(this.bot.getText())) {
+                new Alert(Alert.AlertType.ERROR, "Player and Bot cannot have the same name.").showAndWait();
+                return false;
+            }
+        }
+
+        else if (this.gameMode.getValue().equals("Bot vs Bot")) {
+            if (this.botX.getText().length() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Bot X text field is blank.").showAndWait();
+                return false;
+            }
+            if (this.botO.getText().length() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Bot O text field is blank.").showAndWait();
+                return false;
+            }
+            if (this.botX.getText().equals(this.botO.getText())) {
+                new Alert(Alert.AlertType.ERROR, "Bot X and Bot O cannot have the same name.").showAndWait();
+                return false;
+            }
+            if (this.botAlgorithmX.getValue().length() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Bot X Algorithm dropdown menu is blank.").showAndWait();
+                return false;
+            }
+            if (this.botAlgorithmO.getValue().length() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Bot O Algorithm dropdown menu is blank.").showAndWait();
+                return false;
+            }
+        }
         return true;
     }
 }
