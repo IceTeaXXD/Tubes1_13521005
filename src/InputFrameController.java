@@ -15,13 +15,15 @@ import javafx.collections.ObservableList;
 import java.io.IOException;
 
 /**
- * The InputFrameController class.  It controls input from the users and validates it.
- * If validation is successful, the Adjacency game screen will pop up in a different window.
+ * The InputFrameController class. It controls input from the users and
+ * validates it.
+ * If validation is successful, the Adjacency game screen will pop up in a
+ * different window.
  *
  * @author Jedid Ahn
  *
  */
-public class InputFrameController{
+public class InputFrameController {
 
     public CheckBox isBotFirst;
     @FXML
@@ -49,38 +51,42 @@ public class InputFrameController{
     private ComboBox<String> botAlgorithm2;
 
     /**
-     * Initialize the dropdown ComboBox with a list of items that are allowed to be selected.
+     * Initialize the dropdown ComboBox with a list of items that are allowed to be
+     * selected.
      * Select the first item in the list as the default value of the dropdown.
      *
      */
     @FXML
-    private void initialize(){
+    private void initialize() {
         ObservableList<String> numberOfRoundsDropdown = FXCollections.observableArrayList(
                 "", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15",
                 "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28");
         this.numberOfRounds.setItems(numberOfRoundsDropdown);
         this.numberOfRounds.getSelectionModel().select(0);
-        this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning", "Hill Climb"));
-        this.botAlgorithm2.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning", "Hill Climb"));
+        this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
+                "Hill Climb", "Genetic-Minimax"));
+        this.botAlgorithm2.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
+                "Hill Climb", "Genetic-Minimax"));
         this.gameMode.setItems(FXCollections.observableArrayList("Human vs Human", "Human vs Bot", "Bot vs Bot"));
         this.botAlgorithmtext2.setVisible(false);
         this.botAlgorithm2.setVisible(false);
         this.gameMode.getSelectionModel().select(1);
         this.gameMode.setOnAction(event -> {
             // Call your function here
-            if (this.gameMode.getValue().equals("Human vs Human")){
+            if (this.gameMode.getValue().equals("Human vs Human")) {
                 this.humanselection();
             }
-            if (this.gameMode.getValue().equals("Human vs Bot")){
+            if (this.gameMode.getValue().equals("Human vs Bot")) {
                 this.humanbotselection();
             }
-            if (this.gameMode.getValue().equals("Bot vs Bot")){
+            if (this.gameMode.getValue().equals("Bot vs Bot")) {
                 this.botselection();
             }
         });
     }
+
     @FXML
-    private void humanselection(){
+    private void humanselection() {
         this.player1text.setText("Player Name (X):");
         this.player2text.setText("Player Name (O):");
         this.botAlgorithm.setVisible(false);
@@ -89,7 +95,8 @@ public class InputFrameController{
         this.botAlgorithm2.setVisible(false);
         this.botAlgorithmtext2.setVisible(false);
     }
-    private void botselection(){
+
+    private void botselection() {
         this.player1text.setText("Bot Name (X):");
         this.player2text.setText("Bot Name (O):");
         this.botAlgorithm.setVisible(true);
@@ -98,7 +105,8 @@ public class InputFrameController{
         this.botAlgorithm2.setVisible(true);
         this.botAlgorithmtext2.setVisible(true);
     }
-    private void humanbotselection(){
+
+    private void humanbotselection() {
         this.player1text.setText("Player Name (X):");
         this.player2text.setText("Bot Name (O):");
         this.botAlgorithm.setVisible(true);
@@ -109,28 +117,30 @@ public class InputFrameController{
     }
 
     /**
-     * Reset player1 and player2 text fields and reset numberOfRounds dropdown to default value
+     * Reset player1 and player2 text fields and reset numberOfRounds dropdown to
+     * default value
      * if reset button is clicked.
      *
      */
     @FXML
-    private void reset(){
+    private void reset() {
         this.player1.setText("");
         this.player2.setText("");
         this.numberOfRounds.getSelectionModel().select(0);
     }
 
-
     /**
-     * Open OutputFrame controlled by OutputFrameController if play button is clicked and
+     * Open OutputFrame controlled by OutputFrameController if play button is
+     * clicked and
      * all input have been successfully validated.
      *
-     * @exception IOException To load the FXMLLoader to open the Adjacency game screen (output screen).
+     * @exception IOException To load the FXMLLoader to open the Adjacency game
+     *                        screen (output screen).
      *
      */
     @FXML
-    private void play() throws IOException{
-        if (this.isInputFieldValidated()){
+    private void play() throws IOException {
+        if (this.isInputFieldValidated()) {
             // Close primary stage/input frame.
             Stage primaryStage = (Stage) this.player1.getScene().getWindow();
             primaryStage.close();
@@ -138,63 +148,69 @@ public class InputFrameController{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("OutputFrame.fxml"));
             Parent root = loader.load();
 
-            // Get controller of output frame and pass input including player names and number of rounds chosen.
+            // Get controller of output frame and pass input including player names and
+            // number of rounds chosen.
             OutputFrameController outputFC = loader.getController();
-            
+
             Stage secondaryStage = new Stage();
             secondaryStage.setTitle("Game Board Display");
             secondaryStage.setScene(new Scene(root));
             secondaryStage.setResizable(true);
             secondaryStage.show();
-            
+
             // Bot Algorithm
             // 1. Random Move
-            // 2. ...
-            // 3. ...
-            if (this.gameMode.getValue().equals("Human vs Human")){
+            // 2. Minimax Alpha Beta Pruning
+            // 3. Hill Climb
+            // 4. Genetic-Minimax
+            if (this.gameMode.getValue().equals("Human vs Human")) {
                 System.out.println("Human vs Human");
-                outputFC.getInput(this.gameMode.getValue(),this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), 0, 0);
+                outputFC.getInput(this.gameMode.getValue(), this.player1.getText(), this.player2.getText(),
+                        this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), 0, 0);
             }
-            
-            else if (this.gameMode.getValue().equals("Human vs Bot")){
+
+            else if (this.gameMode.getValue().equals("Human vs Bot")) {
                 int botAlgorithm = 0;
                 if (this.botAlgorithm.getValue().equals("Random Move")) {
                     botAlgorithm = 1;
                 } else if (this.botAlgorithm.getValue().equals("Minimax Alpha Beta Pruning")) {
                     botAlgorithm = 2;
-                } else if (this.botAlgorithm.getValue().equals("Hill Climb")){
+                } else if (this.botAlgorithm.getValue().equals("Hill Climb")) {
                     botAlgorithm = 3;
+                } else if (this.botAlgorithm.getValue().equals("Genetic-Minimax")) {
+                    botAlgorithm = 4;
                 }
-                outputFC.getInput(this.gameMode.getValue(),this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm, 0);
+                outputFC.getInput(this.gameMode.getValue(), this.player1.getText(), this.player2.getText(),
+                        this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm, 0);
             }
-            
-            else if (this.gameMode.getValue().equals("Bot vs Bot")){
+
+            else if (this.gameMode.getValue().equals("Bot vs Bot")) {
                 int botAlgorithm = 0;
                 if (this.botAlgorithm.getValue().equals("Random Move")) {
                     botAlgorithm = 1;
                 } else if (this.botAlgorithm.getValue().equals("Minimax Alpha Beta Pruning")) {
                     botAlgorithm = 2;
-                } else if (this.botAlgorithm.getValue().equals("Hill Climb")){
+                } else if (this.botAlgorithm.getValue().equals("Hill Climb")) {
                     botAlgorithm = 3;
+                } else if (this.botAlgorithm.getValue().equals("Genetic-Minimax")) {
+                    botAlgorithm = 4;
                 }
-                
+
                 int botAlgorithm2 = 0;
                 if (this.botAlgorithm2.getValue().equals("Random Move")) {
                     botAlgorithm2 = 1;
                 } else if (this.botAlgorithm2.getValue().equals("Minimax Alpha Beta Pruning")) {
                     botAlgorithm2 = 2;
-                } else if (this.botAlgorithm2.getValue().equals("Hill Climb")){
+                } else if (this.botAlgorithm2.getValue().equals("Hill Climb")) {
                     botAlgorithm2 = 3;
+                } else if (this.botAlgorithm2.getValue().equals("Genetic-Minimax")) {
+                    botAlgorithm2 = 4;
                 }
-                outputFC.getInput(this.gameMode.getValue(),this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), false, botAlgorithm, botAlgorithm2);
+                outputFC.getInput(this.gameMode.getValue(), this.player1.getText(), this.player2.getText(),
+                        this.numberOfRounds.getValue(), false, botAlgorithm, botAlgorithm2);
             }
-
-            // outputFC.getInput(this.player1.getText(), this.player2.getText(), this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm);
-
-            // Open the new frame.
         }
     }
-
 
     /**
      * Return whether all input fields have been successfully validated or not.
@@ -217,7 +233,7 @@ public class InputFrameController{
             return false;
         }
 
-        if (playerX.equals(playerO)){
+        if (playerX.equals(playerO)) {
             new Alert(Alert.AlertType.ERROR, "Player 1 and Player 2 cannot have the same name.").showAndWait();
             return false;
         }
