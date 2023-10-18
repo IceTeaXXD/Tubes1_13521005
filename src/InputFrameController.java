@@ -116,6 +116,7 @@ public class InputFrameController {
         this.gameMode.setItems(FXCollections.observableArrayList("Human vs Human", "Human vs Bot", "Bot vs Bot"));
         this.gameMode.getSelectionModel().select(1);
         this.humanbotselection();
+        this.gameMode.setValue("Bot vs Bot");
         this.gameMode.setOnAction(event -> {
             if (this.gameMode.getValue().equals("Human vs Human")) {
                 this.humanselection();

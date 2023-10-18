@@ -2,6 +2,7 @@ import javafx.scene.control.Button;
 
 public class MinimaxBot extends Bot {
     public long endTime;
+    private boolean isFallback = false;
 
     public MinimaxBot(String symbol) {
         this.symbol = symbol;
@@ -9,16 +10,18 @@ public class MinimaxBot extends Bot {
     }
 
     public int[] move(Button[][] board, int roundsLeft) {
-        if (enemySymbol.equals("O")) {
-            this.symbol = "X";
-        } else {
-            this.symbol = "O";
-        }
         int[] move = new int[2];
         this.endTime = System.currentTimeMillis() + 5000; // 5 seconds from now
-        int[] selection = minimax(board, 5, roundsLeft, Integer.MAX_VALUE, Integer.MIN_VALUE, true);
+        int[] selection = minimax(board, 5, roundsLeft, Integer.MIN_VALUE, Integer.MAX_VALUE, true, 1);
         move[0] = selection[1];
         move[1] = selection[2];
+        if (this.isFallback) {
+            int[] fallback = this.fallbackHC(board, roundsLeft);
+            move[0] = fallback[0];
+            move[1] = fallback[1];
+            System.out.println("fallback");
+        }
+
         return move;
     }
 
@@ -85,9 +88,12 @@ public class MinimaxBot extends Bot {
     }
 
     // Minimax algorithm
-    public int[] minimax(Button[][] board, int depth, int roundsLeft, int alpha, int beta, boolean bot) {
+    public int[] minimax(Button[][] board, int depth, int roundsLeft, int alpha, int beta, boolean bot, int curDepth) {
         // basis
         if (depth == 0 || roundsLeft == 0 || System.currentTimeMillis() >= endTime) {
+            if (System.currentTimeMillis() >= endTime) {
+                this.isFallback = true;
+            }
             int evaluation = minimaxEvaluation(board);
             return new int[] { evaluation, -1, -1 };
         }
@@ -102,7 +108,7 @@ public class MinimaxBot extends Bot {
                 for (int j = 0; j < 8; j++) {
                     if (board[i][j].getText().equals("")) {
                         Button[][] newBoard = updateVirtualBoard(i, j, board, bot);
-                        int[] selection = minimax(newBoard, depth - 1, roundsLeft - 1, alpha, beta, false);
+                        int[] selection = minimax(newBoard, depth - 1, roundsLeft - 1, alpha, beta, !bot, curDepth + 1);
                         int eval = selection[0];
 
                         if (eval > maxEval) {
@@ -110,10 +116,10 @@ public class MinimaxBot extends Bot {
                             bestX = i;
                             bestY = j;
                         }
-
+                        
                         // Pruning, ignore if beta is smaller than alpha
                         alpha = Math.max(alpha, eval);
-                        if (beta <= alpha) {
+                        if ((beta < Integer.MAX_VALUE || alpha > Integer.MIN_VALUE ) && beta <= alpha) {
                             break;
                         }
                     }
@@ -132,7 +138,7 @@ public class MinimaxBot extends Bot {
                 for (int j = 0; j < 8; j++) {
                     if (board[i][j].getText().equals("")) {
                         Button[][] newBoard = updateVirtualBoard(i, j, board, bot);
-                        int[] selection = minimax(newBoard, depth - 1, roundsLeft, alpha, beta, true);
+                        int[] selection = minimax(newBoard, depth - 1, roundsLeft, alpha, beta, !bot, curDepth + 1);
                         int eval = selection[0];
 
                         if (eval < minEval) {
@@ -143,7 +149,7 @@ public class MinimaxBot extends Bot {
 
                         // Pruning, ignore if beta is smaller than alpha
                         beta = Math.min(beta, eval);
-                        if (beta <= alpha) {
+                        if ((beta < Integer.MAX_VALUE || alpha > Integer.MIN_VALUE) && beta <= alpha) {
                             break;
                         }
                     }
@@ -152,5 +158,35 @@ public class MinimaxBot extends Bot {
 
             return new int[] { minEval, bestX, bestY };
         }
+    }
+
+    public int[] fallbackHC(Button[][] board, int roundsLeft) {
+        int[] selection = new int[2];
+        int eval = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j].getText().equals("")) {
+                    int res = 0;
+                    if (i != 0 && board[i - 1][j].getText().equals(enemySymbol)) {
+                        res++;
+                    }
+                    if (j != 0 && board[i][j - 1].getText().equals(enemySymbol)) {
+                        res++;
+                    }
+                    if (i != 7 && board[i + 1][j].getText().equals(enemySymbol)) {
+                        res++;
+                    }
+                    if (j != 7 && board[i][j + 1].getText().equals(enemySymbol)) {
+                        res++;
+                    }
+                    if (res > eval) {
+                        eval = res;
+                        selection[0] = i;
+                        selection[1] = j;
+                    }
+                }
+            }
+        }
+        return selection;
     }
 }
