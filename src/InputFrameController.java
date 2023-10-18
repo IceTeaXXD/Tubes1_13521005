@@ -116,7 +116,6 @@ public class InputFrameController {
         this.gameMode.setItems(FXCollections.observableArrayList("Human vs Human", "Human vs Bot", "Bot vs Bot"));
         this.gameMode.getSelectionModel().select(1);
         this.humanbotselection();
-        this.gameMode.setValue("Bot vs Bot");
         this.gameMode.setOnAction(event -> {
             if (this.gameMode.getValue().equals("Human vs Human")) {
                 this.humanselection();
@@ -129,11 +128,11 @@ public class InputFrameController {
             }
         });
         this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
-                "Hill Climb", "Genetic-Minimax"));
+                "Hill-climbing with Sideways Move","Stochastic Hill-climbing", "Genetic-Minimax"));
         this.botAlgorithmX.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
-                "Hill Climb", "Genetic-Minimax"));
+                "Hill-climbing with Sideways Move","Stochastic Hill-climbing", "Genetic-Minimax"));
         this.botAlgorithmO.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
-                "Hill Climb", "Genetic-Minimax"));
+                "Hill-climbing with Sideways Move","Stochastic Hill-climbing", "Genetic-Minimax"));
     }
 
     private void hideAll() {
@@ -180,10 +179,12 @@ public class InputFrameController {
         this.botO.setVisible(true);
         this.botAlgorithmX.setVisible(true);
         this.botAlgorithmO.setVisible(true);
+        this.isPlayerOFirst.setVisible(true);
         this.botXtext.setVisible(true);
         this.botOtext.setVisible(true);
         this.botAlgorithmtextX.setVisible(true);
         this.botAlgorithmtextO.setVisible(true);
+        this.isPlayerOFirsttext.setVisible(true);
     }
 
     private void humanbotselection() {
@@ -267,10 +268,12 @@ public class InputFrameController {
                     botAlgorithm = 1;
                 } else if (this.botAlgorithm.getValue().equals("Minimax Alpha Beta Pruning")) {
                     botAlgorithm = 2;
-                } else if (this.botAlgorithm.getValue().equals("Hill Climb")) {
+                } else if (this.botAlgorithm.getValue().equals("Hill-climbing with Sideways Move")) {
                     botAlgorithm = 3;
-                } else if (this.botAlgorithm.getValue().equals("Genetic-Minimax")) {
+                } else if (this.botAlgorithm.getValue().equals("Stochastic Hill-climbing")) {
                     botAlgorithm = 4;
+                } else if (this.botAlgorithm.getValue().equals("Genetic-Minimax")) {
+                    botAlgorithm = 5;
                 }
                 outputFC.getInput(this.gameMode.getValue(), this.player.getText(), this.bot.getText(),
                         this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), 0, botAlgorithm);
@@ -282,24 +285,27 @@ public class InputFrameController {
                     botAlgorithmX = 1;
                 } else if (this.botAlgorithmX.getValue().equals("Minimax Alpha Beta Pruning")) {
                     botAlgorithmX = 2;
-                } else if (this.botAlgorithmX.getValue().equals("Hill Climb")) {
+                } else if (this.botAlgorithmX.getValue().equals("Hill-climbing with Sideways Move")) {
                     botAlgorithmX = 3;
-                } else if (this.botAlgorithmX.getValue().equals("Genetic-Minimax")) {
+                } else if (this.botAlgorithmX.getValue().equals("Stochastic Hill-climbing")) {
                     botAlgorithmX = 4;
+                } else if (this.botAlgorithmX.getValue().equals("Genetic-Minimax")) {
+                    botAlgorithmX = 5;
                 }
-
                 int botAlgorithmO = 0;
                 if (this.botAlgorithmO.getValue().equals("Random Move")) {
                     botAlgorithmO = 1;
                 } else if (this.botAlgorithmO.getValue().equals("Minimax Alpha Beta Pruning")) {
                     botAlgorithmO = 2;
-                } else if (this.botAlgorithmO.getValue().equals("Hill Climb")) {
+                } else if (this.botAlgorithmO.getValue().equals("Hill-climbing with Sideways Move")) {
                     botAlgorithmO = 3;
-                } else if (this.botAlgorithmO.getValue().equals("Genetic-Minimax")) {
+                } else if (this.botAlgorithmO.getValue().equals("Stochastic Hill-climbing")) {
                     botAlgorithmO = 4;
+                } else if (this.botAlgorithmO.getValue().equals("Genetic-Minimax")) {
+                    botAlgorithmO = 5;
                 }
                 outputFC.getInput(this.gameMode.getValue(), this.botX.getText(), this.botO.getText(),
-                        this.numberOfRounds.getValue(), false, botAlgorithmX, botAlgorithmO);
+                        this.numberOfRounds.getValue(), this.isPlayerOFirst.isSelected(), botAlgorithmX, botAlgorithmO);
             }
         }
     }

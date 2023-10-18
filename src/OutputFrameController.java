@@ -93,7 +93,7 @@ public class OutputFrameController {
             this.botX = new MinimaxBot("X");
         } else if (botAlgorithmX == 3) {
             this.botX = new HillClimbBot("X");
-        } else if (botAlgorithmX == 4) {
+        } else if (botAlgorithmX == 5) {
             this.botX = new GeneticMinimaxBot("X");
         }
 
@@ -103,7 +103,7 @@ public class OutputFrameController {
             this.botO = new MinimaxBot("O");
         } else if (botAlgorithmO == 3) {
             this.botO = new HillClimbBot("O");
-        } else  if (botAlgorithmO == 4) {
+        } else  if (botAlgorithmO == 5) {
             this.botO = new GeneticMinimaxBot("O");
         }
 
@@ -242,14 +242,15 @@ public class OutputFrameController {
 
                 if (isBotFirst && this.roundsLeft == 0) {
                     this.endOfGame();
+                } else {
+                    // Bot's turn
+                    if (this.gameMode.equals("Human vs Bot")) {
+                        this.moveBot();
+                    } else if (this.gameMode.equals("Bot vs Bot")) {
+                        this.moveBotO();
+                    }
                 }
 
-                // Bot's turn
-                if (this.gameMode.equals("Human vs Bot")) {
-                    this.moveBot();
-                } else if (this.gameMode.equals("Bot vs Bot")) {
-                    this.moveBotO();
-                }
 
             } else {
                 this.playerXBoxPane.setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
