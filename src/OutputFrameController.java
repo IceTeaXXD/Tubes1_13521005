@@ -221,8 +221,8 @@ public class OutputFrameController {
         else {
             if (this.playerXTurn) {
                 // Changed background color to green to indicate next player's turn.
-                this.playerXBoxPane.setStyle("-fx-background-color: WHITE; -fx-border-color: #D3D3D3;");
-                this.playerOBoxPane.setStyle("-fx-background-color: #90EE90; -fx-border-color: #D3D3D3;");
+                this.playerXBoxPane.setStyle("-fx-background-color: WHITE; -fx-border-color: #FFDBAA;");
+                this.playerOBoxPane.setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
                 this.buttons[i][j].setText("X"); // Mark the board with X.
                 this.playerXScore++; // Increment the score of player X.
 
@@ -248,8 +248,8 @@ public class OutputFrameController {
                 }
 
             } else {
-                this.playerXBoxPane.setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
-                this.playerOBoxPane.setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
+                this.playerXBoxPane.setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
+                this.playerOBoxPane.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #FFDBAA;");
                 this.buttons[i][j].setText("O");
                 this.playerOScore++;
 
@@ -307,6 +307,13 @@ public class OutputFrameController {
         else
             endColumn = j + 1;
 
+        if (this.playerXTurn){
+                // set the button background color to green
+                this.buttons[i][j].setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
+            } else {
+                // set the button background color to red
+                this.buttons[i][j].setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
+            }
         // Search for adjacency for X's and O's or vice versa, and replace them.
         // Update scores for X's and O's accordingly.
         for (int x = startRow; x <= endRow; x++) {
@@ -345,7 +352,7 @@ public class OutputFrameController {
         // Player X is the winner.
         if (this.playerXScore > this.playerOScore) {
             new Alert(Alert.AlertType.INFORMATION,
-                    this.playerXName.getText() + " has won the game!").showAndWait();
+                    this.playerXName.getText() + " menang wle!").showAndWait();
             this.playerXBoxPane.setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
             this.playerOBoxPane.setStyle("-fx-background-color: #FFF6DC; -fx-border-color: #FFDBAA;");
             this.playerXName.setText(this.playerXName.getText() + " (Winner!)");
@@ -354,7 +361,7 @@ public class OutputFrameController {
         // Player O is the winner,
         else if (this.playerOScore > this.playerXScore) {
             new Alert(Alert.AlertType.INFORMATION,
-                    this.playerOName.getText() + " has won the game!").showAndWait();
+                    this.playerOName.getText() + " menang wle!").showAndWait();
             this.playerXBoxPane.setStyle("-fx-background-color: #FFF6DC; -fx-border-color: #FFDBAA;");
             this.playerOBoxPane.setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
             this.playerOName.setText(this.playerOName.getText() + " (Winner!)");
