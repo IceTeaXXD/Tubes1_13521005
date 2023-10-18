@@ -255,7 +255,7 @@ public class InputFrameController {
             // 3. Hill Climb
             // 4. Genetic-Minimax
             if (this.gameMode.getValue().equals("Human vs Human")) {
-                System.out.println("Human vs Human");
+                System.out.println(this.isPlayerOFirst.isSelected());
                 outputFC.getInput(this.gameMode.getValue(), this.playerX.getText(), this.playerO.getText(),
                         this.numberOfRounds.getValue(), this.isPlayerOFirst.isSelected(), 0, 0);
             }
@@ -272,7 +272,7 @@ public class InputFrameController {
                     botAlgorithm = 4;
                 }
                 outputFC.getInput(this.gameMode.getValue(), this.player.getText(), this.bot.getText(),
-                        this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithm, 0);
+                        this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), 0, botAlgorithm);
             }
 
             else if (this.gameMode.getValue().equals("Bot vs Bot")) {
