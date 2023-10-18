@@ -179,12 +179,12 @@ public class InputFrameController {
         this.botO.setVisible(true);
         this.botAlgorithmX.setVisible(true);
         this.botAlgorithmO.setVisible(true);
-        this.isPlayerOFirst.setVisible(true);
+        this.isBotFirst.setVisible(true);
         this.botXtext.setVisible(true);
         this.botOtext.setVisible(true);
         this.botAlgorithmtextX.setVisible(true);
         this.botAlgorithmtextO.setVisible(true);
-        this.isPlayerOFirsttext.setVisible(true);
+        this.botgoesfirsttext.setVisible(true);
     }
 
     private void humanbotselection() {
@@ -305,7 +305,7 @@ public class InputFrameController {
                     botAlgorithmO = 5;
                 }
                 outputFC.getInput(this.gameMode.getValue(), this.botX.getText(), this.botO.getText(),
-                        this.numberOfRounds.getValue(), this.isPlayerOFirst.isSelected(), botAlgorithmX, botAlgorithmO);
+                        this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithmX, botAlgorithmO);
             }
         }
     }

@@ -92,7 +92,7 @@ public class OutputFrameController {
         } else if (botAlgorithmX == 2) {
             this.botX = new MinimaxBot("X");
         } else if (botAlgorithmX == 3) {
-            this.botX = new HillClimbBot("X");
+            this.botX = new HCSidewaysBot("X");
         } else if (botAlgorithmX == 5) {
             this.botX = new GeneticMinimaxBot("X");
         }
@@ -102,7 +102,7 @@ public class OutputFrameController {
         } else if (botAlgorithmO == 2) {
             this.botO = new MinimaxBot("O");
         } else if (botAlgorithmO == 3) {
-            this.botO = new HillClimbBot("O");
+            this.botO = new HCSidewaysBot("O");
         } else  if (botAlgorithmO == 5) {
             this.botO = new GeneticMinimaxBot("O");
         }
