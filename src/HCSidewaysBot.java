@@ -1,13 +1,13 @@
 import javafx.scene.control.Button;
 
 public class HCSidewaysBot extends Bot {
-    
+
     public HCSidewaysBot(String symbol) {
         this.symbol = symbol;
         this.enemySymbol = symbol.equals("X") ? "O" : "X";
     }
 
-    public int[]move(Button[][] board, int roundsLeft) {
+    public int[] move(Button[][] board, int roundsLeft) {
         int[] selection = new int[2];
         int eval = 0;
         for (int i = 0; i < 8; i++) {
@@ -30,7 +30,7 @@ public class HCSidewaysBot extends Bot {
                         eval = res;
                         selection[0] = i;
                         selection[1] = j;
-                    } else if (res < eval){
+                    } else if (res < eval) {
                         return selection;
                     }
                 }

@@ -81,11 +81,12 @@ public class OutputFrameController {
         this.isBotFirst = isPlayerOFirst;
         this.gameMode = gameMode;
 
-        // // Start bot the bot
+        // Start bot the bot
         // 1. Random Move
         // 2. Minimax
-        // 3. Hill Climbing
-        // 4. Genetic-Minimax
+        // 3. Hill Climbing Sideways
+        // 4. Stochastic Hill Climbing
+        // 5. Genetic Algorithm
 
         if (botAlgorithmX == 1) {
             this.botX = new RandomBot();
@@ -93,6 +94,8 @@ public class OutputFrameController {
             this.botX = new MinimaxBot("X");
         } else if (botAlgorithmX == 3) {
             this.botX = new HCSidewaysBot("X");
+        } else if (botAlgorithmX == 4) {
+            this.botX = new StochasticHCBot("X");
         } else if (botAlgorithmX == 5) {
             this.botX = new GeneticMinimaxBot("X");
         }
@@ -103,7 +106,9 @@ public class OutputFrameController {
             this.botO = new MinimaxBot("O");
         } else if (botAlgorithmO == 3) {
             this.botO = new HCSidewaysBot("O");
-        } else  if (botAlgorithmO == 5) {
+        } else if (botAlgorithmO == 4) {
+            this.botO = new StochasticHCBot("O");
+        } else if (botAlgorithmO == 5) {
             this.botO = new GeneticMinimaxBot("O");
         }
 
@@ -114,8 +119,8 @@ public class OutputFrameController {
             }
         } else if (gameMode == "Bot vs Bot") {
             // Disable the UI
-            for (int i = 0 ; i < ROW ; i++) {
-                for (int j = 0 ; j < COL ; j++) {
+            for (int i = 0; i < ROW; i++) {
+                for (int j = 0; j < COL; j++) {
                     this.buttons[i][j].setDisable(true);
                 }
             }
@@ -251,7 +256,6 @@ public class OutputFrameController {
                     }
                 }
 
-
             } else {
                 this.playerXBoxPane.setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
                 this.playerOBoxPane.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #FFDBAA;");
@@ -312,13 +316,13 @@ public class OutputFrameController {
         else
             endColumn = j + 1;
 
-        if (this.playerXTurn){
-                // set the button background color to green
-                this.buttons[i][j].setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
-            } else {
-                // set the button background color to red
-                this.buttons[i][j].setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
-            }
+        if (this.playerXTurn) {
+            // set the button background color to green
+            this.buttons[i][j].setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
+        } else {
+            // set the button background color to red
+            this.buttons[i][j].setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
+        }
         // Search for adjacency for X's and O's or vice versa, and replace them.
         // Update scores for X's and O's accordingly.
         for (int x = startRow; x <= endRow; x++) {
@@ -436,8 +440,8 @@ public class OutputFrameController {
 
     private void moveBotX() {
         Button[][] board = new Button[ROW][COL];
-        for (int i = 0 ; i < ROW ; i++)
-            for (int j = 0 ; j < COL ; j++) 
+        for (int i = 0; i < ROW; i++)
+            for (int j = 0; j < COL; j++)
                 board[i][j] = new Button(this.buttons[i][j].getText());
         PauseTransition pauseX = new PauseTransition(Duration.seconds(1));
         pauseX.setOnFinished(event -> {
@@ -458,8 +462,8 @@ public class OutputFrameController {
 
     private void moveBotO() {
         Button[][] board = new Button[ROW][COL];
-        for (int i = 0 ; i < ROW ; i++)
-            for (int j = 0 ; j < COL ; j++) 
+        for (int i = 0; i < ROW; i++)
+            for (int j = 0; j < COL; j++)
                 board[i][j] = new Button(this.buttons[i][j].getText());
         PauseTransition pauseO = new PauseTransition(Duration.seconds(1));
         pauseO.setOnFinished(event -> {
