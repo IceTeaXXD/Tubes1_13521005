@@ -93,6 +93,8 @@ public class OutputFrameController {
             this.botX = new MinimaxBot("X");
         } else if (botAlgorithmX == 3) {
             this.botX = new HillClimbBot("X");
+        } else if (botAlgorithmX == 4) {
+            this.botX = new StochasticHCBot("X");
         } else if (botAlgorithmX == 5) {
             this.botX = new GeneticMinimaxBot("X");
         }
@@ -103,6 +105,8 @@ public class OutputFrameController {
             this.botO = new MinimaxBot("O");
         } else if (botAlgorithmO == 3) {
             this.botO = new HillClimbBot("O");
+        } else if (botAlgorithmO == 4) {
+            this.botO = new StochasticHCBot("O");
         } else  if (botAlgorithmO == 5) {
             this.botO = new GeneticMinimaxBot("O");
         }
