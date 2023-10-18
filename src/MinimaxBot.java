@@ -19,7 +19,6 @@ public class MinimaxBot extends Bot {
             int[] fallback = this.fallbackHC(board, roundsLeft);
             move[0] = fallback[0];
             move[1] = fallback[1];
-            System.out.println("fallback");
         }
 
         return move;
@@ -116,10 +115,10 @@ public class MinimaxBot extends Bot {
                             bestX = i;
                             bestY = j;
                         }
-                        
+
                         // Pruning, ignore if beta is smaller than alpha
                         alpha = Math.max(alpha, eval);
-                        if ((beta < Integer.MAX_VALUE || alpha > Integer.MIN_VALUE ) && beta <= alpha) {
+                        if ((beta < Integer.MAX_VALUE || alpha > Integer.MIN_VALUE) && beta <= alpha) {
                             break;
                         }
                     }

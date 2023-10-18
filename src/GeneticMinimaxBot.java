@@ -92,7 +92,7 @@ public class GeneticMinimaxBot extends Bot {
         }
 
         // If no move is found, return a random move
-        int [] move = getRandomMove(copyBoard);
+        int[] move = getRandomMove(copyBoard);
         return move;
     }
 
