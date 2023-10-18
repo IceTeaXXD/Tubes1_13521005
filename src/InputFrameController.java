@@ -128,11 +128,11 @@ public class InputFrameController {
             }
         });
         this.botAlgorithm.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
-                "Hill-climbing with Sideways Move","Stochastic Hill-climbing", "Genetic-Minimax"));
+                "Hill-climbing with Sideways Move", "Stochastic Hill-climbing", "Genetic-Minimax"));
         this.botAlgorithmX.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
-                "Hill-climbing with Sideways Move","Stochastic Hill-climbing", "Genetic-Minimax"));
+                "Hill-climbing with Sideways Move", "Stochastic Hill-climbing", "Genetic-Minimax"));
         this.botAlgorithmO.setItems(FXCollections.observableArrayList("Random Move", "Minimax Alpha Beta Pruning",
-                "Hill-climbing with Sideways Move","Stochastic Hill-climbing", "Genetic-Minimax"));
+                "Hill-climbing with Sideways Move", "Stochastic Hill-climbing", "Genetic-Minimax"));
     }
 
     private void hideAll() {
@@ -179,12 +179,12 @@ public class InputFrameController {
         this.botO.setVisible(true);
         this.botAlgorithmX.setVisible(true);
         this.botAlgorithmO.setVisible(true);
-        this.isPlayerOFirst.setVisible(true);
+        this.isBotFirst.setVisible(true);
         this.botXtext.setVisible(true);
         this.botOtext.setVisible(true);
         this.botAlgorithmtextX.setVisible(true);
         this.botAlgorithmtextO.setVisible(true);
-        this.isPlayerOFirsttext.setVisible(true);
+        this.botgoesfirsttext.setVisible(true);
     }
 
     private void humanbotselection() {
@@ -253,9 +253,10 @@ public class InputFrameController {
 
             // Bot Algorithm
             // 1. Random Move
-            // 2. Minimax Alpha Beta Pruning
-            // 3. Hill Climb
-            // 4. Genetic-Minimax
+            // 2. Minimax
+            // 3. Hill Climbing Sideways
+            // 4. Stochastic Hill Climbing
+            // 5. Genetic Algorithm
             if (this.gameMode.getValue().equals("Human vs Human")) {
                 System.out.println(this.isPlayerOFirst.isSelected());
                 outputFC.getInput(this.gameMode.getValue(), this.playerX.getText(), this.playerO.getText(),
@@ -305,7 +306,7 @@ public class InputFrameController {
                     botAlgorithmO = 5;
                 }
                 outputFC.getInput(this.gameMode.getValue(), this.botX.getText(), this.botO.getText(),
-                        this.numberOfRounds.getValue(), this.isPlayerOFirst.isSelected(), botAlgorithmX, botAlgorithmO);
+                        this.numberOfRounds.getValue(), this.isBotFirst.isSelected(), botAlgorithmX, botAlgorithmO);
             }
         }
     }

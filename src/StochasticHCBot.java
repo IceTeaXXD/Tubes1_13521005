@@ -1,7 +1,6 @@
 import java.util.*;
 import javafx.scene.control.Button;
 
-
 public class StochasticHCBot extends Bot {
     private static final int N_MAX = 64;
     private Random random = new Random();

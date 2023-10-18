@@ -1,8 +1,8 @@
 import javafx.scene.control.Button;
 
-public class HillClimbBot extends Bot {
+public class HCSidewaysBot extends Bot {
 
-    public HillClimbBot(String symbol) {
+    public HCSidewaysBot(String symbol) {
         this.symbol = symbol;
         this.enemySymbol = symbol.equals("X") ? "O" : "X";
     }
@@ -30,10 +30,13 @@ public class HillClimbBot extends Bot {
                         eval = res;
                         selection[0] = i;
                         selection[1] = j;
+                    } else if (res < eval) {
+                        return selection;
                     }
                 }
             }
         }
         return selection;
+
     }
 }
