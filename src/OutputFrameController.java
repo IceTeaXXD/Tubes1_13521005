@@ -164,13 +164,21 @@ public class OutputFrameController {
         // Setting up the initial game board with 4 X's in bottom left corner and 4 O's
         // in top right corner.
         this.buttons[ROW - 2][0].setText("X");
+        this.buttons[ROW - 2][0].setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
         this.buttons[ROW - 1][0].setText("X");
+        this.buttons[ROW - 1][0].setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
         this.buttons[ROW - 2][1].setText("X");
+        this.buttons[ROW - 2][1].setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
         this.buttons[ROW - 1][1].setText("X");
+        this.buttons[ROW - 1][1].setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
         this.buttons[0][COL - 2].setText("O");
+        this.buttons[0][COL - 2].setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
         this.buttons[0][COL - 1].setText("O");
+        this.buttons[0][COL - 1].setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
         this.buttons[1][COL - 2].setText("O");
+        this.buttons[1][COL - 2].setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
         this.buttons[1][COL - 1].setText("O");
+        this.buttons[1][COL - 1].setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
 
         // Construct score board with 8 rows.
         for (int i = 0; i < ROW; i++) {
@@ -187,8 +195,8 @@ public class OutputFrameController {
         }
 
         // Initialize turn and score for the game.
-        this.playerXBoxPane.setStyle("-fx-background-color: #90EE90; -fx-border-color: #D3D3D3;");
-        this.playerOBoxPane.setStyle("-fx-background-color: white; -fx-border-color: #D3D3D3;");
+        this.playerXBoxPane.setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
+        this.playerOBoxPane.setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
         this.playerXScoreLabel.setText("4");
         this.playerOScoreLabel.setText("4");
 
@@ -240,8 +248,8 @@ public class OutputFrameController {
                 }
 
             } else {
-                this.playerXBoxPane.setStyle("-fx-background-color: #90EE90; -fx-border-color: #D3D3D3;");
-                this.playerOBoxPane.setStyle("-fx-background-color: WHITE; -fx-border-color: #D3D3D3;");
+                this.playerXBoxPane.setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
+                this.playerOBoxPane.setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
                 this.buttons[i][j].setText("O");
                 this.playerOScore++;
 
@@ -319,11 +327,13 @@ public class OutputFrameController {
                 this.buttons[i][j].setText("X");
                 this.playerXScore++;
                 this.playerOScore--;
+                this.buttons[i][j].setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
             }
         } else if (this.buttons[i][j].getText().equals("X")) {
             this.buttons[i][j].setText("O");
             this.playerOScore++;
             this.playerXScore--;
+            this.buttons[i][j].setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
         }
     }
 
@@ -336,8 +346,8 @@ public class OutputFrameController {
         if (this.playerXScore > this.playerOScore) {
             new Alert(Alert.AlertType.INFORMATION,
                     this.playerXName.getText() + " has won the game!").showAndWait();
-            this.playerXBoxPane.setStyle("-fx-background-color: CYAN; -fx-border-color: #D3D3D3;");
-            this.playerOBoxPane.setStyle("-fx-background-color: WHITE; -fx-border-color: #D3D3D3;");
+            this.playerXBoxPane.setStyle("-fx-background-color: #FFB7B7; -fx-border-color: #FFDBAA;");
+            this.playerOBoxPane.setStyle("-fx-background-color: #FFF6DC; -fx-border-color: #FFDBAA;");
             this.playerXName.setText(this.playerXName.getText() + " (Winner!)");
         }
 
@@ -345,8 +355,8 @@ public class OutputFrameController {
         else if (this.playerOScore > this.playerXScore) {
             new Alert(Alert.AlertType.INFORMATION,
                     this.playerOName.getText() + " has won the game!").showAndWait();
-            this.playerXBoxPane.setStyle("-fx-background-color: WHITE; -fx-border-color: #D3D3D3;");
-            this.playerOBoxPane.setStyle("-fx-background-color: CYAN; -fx-border-color: #D3D3D3;");
+            this.playerXBoxPane.setStyle("-fx-background-color: #FFF6DC; -fx-border-color: #FFDBAA;");
+            this.playerOBoxPane.setStyle("-fx-background-color: #FFDBAA; -fx-border-color: #FFDBAA;");
             this.playerOName.setText(this.playerOName.getText() + " (Winner!)");
         }
 
