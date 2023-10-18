@@ -35,6 +35,5 @@ public class HillClimbBot extends Bot {
             }
         }
         return selection;
-
     }
 }
