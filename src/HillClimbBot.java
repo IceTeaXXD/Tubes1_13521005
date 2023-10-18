@@ -2,7 +2,12 @@ import javafx.scene.control.Button;
 
 public class HillClimbBot extends Bot {
 
-    public int[] move(Button[][] board, int roundsLeft, String enemySymbol) {
+    public HillClimbBot(String symbol) {
+        this.symbol = symbol;
+        this.enemySymbol = symbol.equals("X") ? "O" : "X";
+    }
+
+    public int[] move(Button[][] board, int roundsLeft) {
         int[] selection = new int[2];
         int eval = 0;
         for (int i = 0; i < 8; i++) {

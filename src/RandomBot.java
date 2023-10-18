@@ -1,7 +1,7 @@
 import javafx.scene.control.Button;
 
 public class RandomBot extends Bot {
-    public int[] move(Button[][] board, int roundsLeft, String enemySymbol) {
+    public int[] move(Button[][] board, int roundsLeft) {
         int[] move = new int[2];
         int randomRow = (int) (Math.random() * 8);
         int randomColumn = (int) (Math.random() * 8);

@@ -2,19 +2,21 @@ import javafx.scene.control.Button;
 
 public class MinimaxBot extends Bot {
     public long endTime;
-    public String mySymbol;
-    public String enemySymbol;
 
-    public int[] move(Button[][] board, int roundsLeft, String enemySymbol) {
-        this.enemySymbol = enemySymbol;
+    public MinimaxBot(String symbol) {
+        this.symbol = symbol;
+        this.enemySymbol = symbol.equals("X") ? "O" : "X";
+    }
+
+    public int[] move(Button[][] board, int roundsLeft) {
         if (enemySymbol.equals("O")) {
-            this.mySymbol = "X";
+            this.symbol = "X";
         } else {
-            this.mySymbol = "O";
+            this.symbol = "O";
         }
         int[] move = new int[2];
         this.endTime = System.currentTimeMillis() + 5000; // 5 seconds from now
-        int[] selection = minimax(board, roundsLeft, roundsLeft, Integer.MAX_VALUE, Integer.MIN_VALUE, true);
+        int[] selection = minimax(board, 5, roundsLeft, Integer.MAX_VALUE, Integer.MIN_VALUE, true);
         move[0] = selection[1];
         move[1] = selection[2];
         return move;
@@ -25,7 +27,7 @@ public class MinimaxBot extends Bot {
         int evaluation = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (board[i][j].getText().equals(mySymbol)) {
+                if (board[i][j].getText().equals(symbol)) {
                     evaluation++;
                 }
                 if (board[i][j].getText().equals(enemySymbol)) {
@@ -50,32 +52,32 @@ public class MinimaxBot extends Bot {
 
         // Bot's turn
         if (bot) {
-            finalBoard[x][y].setText(mySymbol);
+            finalBoard[x][y].setText(symbol);
             if (x > 0 && finalBoard[x - 1][y].getText().equals(enemySymbol)) {
-                finalBoard[x - 1][y].setText(mySymbol);
+                finalBoard[x - 1][y].setText(symbol);
             }
             if (x < 7 && finalBoard[x + 1][y].getText().equals(enemySymbol)) {
-                finalBoard[x + 1][y].setText(mySymbol);
+                finalBoard[x + 1][y].setText(symbol);
             }
             if (y > 0 && finalBoard[x][y - 1].getText().equals(enemySymbol)) {
-                finalBoard[x][y - 1].setText(mySymbol);
+                finalBoard[x][y - 1].setText(symbol);
             }
             if (y < 7 && finalBoard[x][y + 1].getText().equals(enemySymbol)) {
-                finalBoard[x][y + 1].setText(mySymbol);
+                finalBoard[x][y + 1].setText(symbol);
             }
             // Player's turn
         } else {
             finalBoard[x][y].setText(enemySymbol);
-            if (x > 0 && finalBoard[x - 1][y].getText().equals(mySymbol)) {
+            if (x > 0 && finalBoard[x - 1][y].getText().equals(symbol)) {
                 finalBoard[x - 1][y].setText(enemySymbol);
             }
-            if (x < 7 && finalBoard[x + 1][y].getText().equals(mySymbol)) {
+            if (x < 7 && finalBoard[x + 1][y].getText().equals(symbol)) {
                 finalBoard[x + 1][y].setText(enemySymbol);
             }
-            if (y > 0 && finalBoard[x][y - 1].getText().equals(mySymbol)) {
+            if (y > 0 && finalBoard[x][y - 1].getText().equals(symbol)) {
                 finalBoard[x][y - 1].setText(enemySymbol);
             }
-            if (y < 7 && finalBoard[x][y + 1].getText().equals(mySymbol)) {
+            if (y < 7 && finalBoard[x][y + 1].getText().equals(symbol)) {
                 finalBoard[x][y + 1].setText(enemySymbol);
             }
         }
