@@ -85,7 +85,7 @@ public class OutputFrameController {
         // 1. Random Move
         // 2. Minimax
         // 3. Hill Climbing
-        // 4 . ...
+        // 4. Genetic-Minimax
 
         if (botAlgorithmX == 1) {
             this.botX = new RandomBot();
@@ -93,6 +93,8 @@ public class OutputFrameController {
             this.botX = new MinimaxBot("X");
         } else if (botAlgorithmX == 3) {
             this.botX = new HillClimbBot("X");
+        } else if (botAlgorithmX == 4) {
+            this.botX = new GeneticMinimaxBot("X");
         }
 
         if (botAlgorithmO == 1) {
@@ -101,6 +103,8 @@ public class OutputFrameController {
             this.botO = new MinimaxBot("O");
         } else if (botAlgorithmO == 3) {
             this.botO = new HillClimbBot("O");
+        } else  if (botAlgorithmO == 4) {
+            this.botO = new GeneticMinimaxBot("O");
         }
 
         if (gameMode == "Human vs Bot") {
