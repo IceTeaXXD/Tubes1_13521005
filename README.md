@@ -13,7 +13,7 @@
 7. [Author](#author)
 
 # General Information
-Program ini merupakan program permainan Adjacency-Strategy-Game yang telah dibuat dan kelompok menambahkan algoritma bot sebagai implementasi dari materi kuliah IF3170 Inteligensi Buatan, yaitu algoritma minimax alpha beta pruning serta algoritma hill-climbing.
+Program ini merupakan program permainan Adjacency-Strategy-Game yang telah dibuat dan kelompok menambahkan algoritma bot sebagai implementasi dari materi kuliah IF3170 Inteligensi Buatan, yaitu algoritma minimax alpha beta pruning, hill-climbing with sideways move, stochastic hill-climbing, dan genetic with minimax algorithm.
 
 ## Features
 Fitur tambahan yang dibuat kelompok serta dapat digunakan pada program ini adalah:
@@ -41,11 +41,11 @@ java -cp ./src --module-path "./javafx-sdk/lib" --add-modules=javafx.controls,ja
 ```
 
 ## Project Status
-On going
+Completed
 
 ## Acknowledgements
-- Program ini dibuat untuk mendukung pengerjaan Tugas Kecil 1 IF3170 Inteligensi Buatan
-- Terima kasih kepada Dosen serta Asisten yang telah mengampu Mata Kuliah Tugas Kecil 1 IF3170 Inteligensi Buatan
+- Program ini dibuat untuk mendukung pengerjaan Tugas Besar 1 IF3170 Inteligensi Buatan
+- Terima kasih kepada Dosen serta Asisten yang telah mengampu Mata Kuliah Tugas Besar 1 IF3170 Inteligensi Buatan
 
 ## Author
 | NIM | Nama |
